@@ -4,16 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Удаляем активный класс у всех кнопок и контента
+            // Убираем активный статус у всех кнопок и контента
             tabButtons.forEach(btn => btn.classList.remove('active'));
             tabPanes.forEach(pane => pane.classList.remove('active'));
 
-            // Добавляем активный класс текущей кнопке
+            // Добавляем класс нажатой кнопке
             button.classList.add('active');
 
-            // Находим нужную вкладку по data-атрибуту и показываем её
+            // Показываем нужный блок по data-атрибуту
             const targetTab = button.getAttribute('data-tab');
             document.getElementById(targetTab).classList.add('active');
         });
     });
 });
+
