@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Архитектура CPU: Эволюция Кремния</title>
     <link rel="stylesheet" href="style.css">
-    
+
     <!-- Жесткие стили чат-виджета, фиксирующие его в правой части -->
     <style>
         .chat-trigger-btn {
@@ -27,7 +27,7 @@
             transition: transform 0.2s !important;
         }
         .chat-trigger-btn:hover { transform: scale(1.05); }
-        
+
         .badge-dot {
             position: absolute !important;
             top: 4px !important;
@@ -42,14 +42,14 @@
         .chat-container {
             position: fixed !important;
             bottom: 105px !important;
-            right: 30px !important; 
+            right: 30px !important;
             width: 360px !important;
             height: 500px !important;
             background: #171b22 !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
             border-radius: 16px !important;
             box-shadow: 0 12px 40px rgba(0,0,0,0.6) !important;
-            display: none !important; 
+            display: none !important;
             flex-direction: column !important;
             z-index: 999999 !important;
             overflow: hidden !important;
@@ -128,14 +128,120 @@
             background-image: linear-gradient(135deg, #1a1e26, #12151b);
         }
 
+        /* ===== СЕКЦИЯ «ЗАКОН МУРА» ===== */
+        .moore-section {
+            padding: 6rem 10%;
+            position: relative;
+            z-index: 1;
+        }
+        .moore-intro {
+            max-width: 720px;
+            margin: -1.5rem auto 3rem;
+            text-align: center;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+        .moore-chart {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            background: rgba(30, 34, 43, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        .moore-row {
+            display: grid;
+            grid-template-columns: 170px 1fr;
+            gap: 1rem;
+            align-items: center;
+        }
+        .moore-label strong {
+            display: block;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+        .moore-label span {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+        .moore-bar-wrap {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 6px;
+            height: 34px;
+            overflow: hidden;
+        }
+        .moore-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.7rem;
+            color: #121417;
+            font-weight: 700;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            animation: growBar 1s ease both;
+        }
+        @keyframes growBar {
+            from { width: 0; }
+        }
+        .moore-note {
+            color: #64748b;
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        /* ===== СЕКЦИЯ «ИСТОЧНИКИ» ===== */
+        .sources-section {
+            padding: 6rem 10% 4rem;
+            position: relative;
+            z-index: 1;
+        }
+        .sources-list {
+            max-width: 800px;
+            margin: 0 auto;
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+        }
+        .sources-list li {
+            background: rgba(30, 34, 43, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            transition: border-color 0.3s;
+        }
+        .sources-list li:hover { border-color: rgba(0, 242, 254, 0.4); }
+        .sources-list a {
+            color: #00f2fe;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .sources-list a:hover { text-decoration: underline; }
+        .sources-list p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-top: 0.4rem;
+        }
+
         /* Адаптив */
         @media (max-width: 768px) {
             .navbar { padding: 1rem 5%; }
-            .nav-links a { margin-left: 1rem; font-size: 0.85rem; }
+            .nav-links a { margin-left: 0.8rem; font-size: 0.8rem; }
+            .logo { font-size: 1.2rem; }
             .hero-title { font-size: 2.2rem; }
-            .timeline-section, .sockets-section { padding: 4rem 5%; }
+            .timeline-section, .sockets-section, .moore-section, .sources-section { padding: 4rem 5%; }
             .tabs-container { flex-wrap: wrap; }
             .tech-card { padding: 1.5rem; }
+            .moore-chart { padding: 1.2rem; }
+            .moore-row { grid-template-columns: 1fr; gap: 0.4rem; }
         }
         @media (max-width: 480px) {
             .chat-container {
@@ -156,7 +262,9 @@
         <nav class="nav-links">
             <a href="#hero" class="active">Главная</a>
             <a href="#timeline">Хроника</a>
+            <a href="#moore">Закон Мура</a>
             <a href="#sockets">Сокеты</a>
+            <a href="#sources">Источники</a>
         </nav>
     </header>
 
@@ -176,9 +284,18 @@
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
+                    <span class="timeline-date">1971</span>
+                    <h3>Первый микропроцессор: Intel 4004</h3>
+                    <p>Intel выпускает 4004 — первый коммерческий микропроцессор. Это 4-битный чип на 2300 транзисторов с частотой 740 кГц, выпущенный по техпроцессу 10 мкм. Его заказала японская компания Busicom для калькуляторов, но он доказал, что весь процессор можно уместить на одном кристалле.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
                     <span class="timeline-date">1978 — 1985</span>
                     <h3>Зарождение архитектуры x86</h3>
-                    <p>Появление легендарного процессора Intel 8086. Этот чип заложил фундамент набора инструкций (x86), который до сих пор используется в большинстве современных домашних компьютеров и серверов.</p>
+                    <p>Появление легендарного процессора Intel 8086. В 1981 году IBM выбрала его упрощённую версию 8088 для первого IBM PC. Этот чип заложил фундамент набора инструкций (x86), который до сих пор используется в большинстве современных домашних компьютеров и серверов.</p>
                 </div>
             </div>
 
@@ -194,7 +311,7 @@
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <span class="timeline-date">2004 — 2006</span>
+                    <span class="timeline-date">2003 — 2006</span>
                     <h3>Переход на 64 бит и многоядерность</h3>
                     <p>AMD совершает исторический прорыв, первой создав 64-битную архитектуру x86-64 (Athlon 64) и первый честный двухъядерный процессор X2. Наращивание частоты «в лоб» уперлось в тепловую стену, начался век многоядерности.</p>
                 </div>
@@ -203,18 +320,75 @@
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <span class="timeline-date">2017 — Настоящее время</span>
+                    <span class="timeline-date">2006</span>
+                    <h3>Core 2 и конец гонки мегагерц</h3>
+                    <p>Intel отказывается от архитектуры NetBurst (Pentium 4), где частота ценилась выше эффективности, и выпускает Core 2 Duo по техпроцессу 65 нм. Процессоры работали на меньших частотах, но обгоняли предшественников за счёт более продуманной архитектуры и сильно меньшего тепловыделения.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2011</span>
+                    <h3>Графика внутри процессора</h3>
+                    <p>Intel Sandy Bridge (32 нм) размещает графическое ядро на одном кристалле с вычислительными ядрами. Встроенная графика становится стандартом для офисных и недорогих домашних ПК, а отдельная видеокарта нужна только тем, кто играет или работает с тяжёлой графикой.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2017 — 2021</span>
                     <h3>Архитектура Zen и чиплетная революция</h3>
                     <p>AMD возвращается на рынок с архитектурой Ryzen, внедрив чиплетный дизайн (составные кристаллы). Это заставило Intel отказаться от 4-ядерного стандарта для потребительских флагманов и перейти к гибридным ядрам (P- и E-cores).</p>
                 </div>
             </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2020 — Настоящее время</span>
+                    <h3>ARM выходит на рынок ПК: Apple M1</h3>
+                    <p>Apple представляет процессор M1 на архитектуре ARM по техпроцессу 5 нм: высокая производительность при низком энергопотреблении. Он показал, что ARM может конкурировать с x86 не только в смартфонах, но и в ноутбуках и настольных компьютерах.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция «Закон Мура» -->
+    <section id="moore" class="moore-section">
+        <h2 class="section-title">Закон Мура в цифрах</h2>
+        <p class="moore-intro">В 1965 году Гордон Мур, будущий сооснователь Intel, заметил, что число компонентов на кристалле быстро растёт: сначала он говорил об удвоении каждый год, а в 1975-м скорректировал прогноз до удвоения примерно раз в два года. Это наблюдение стало ориентиром для всей индустрии. Посмотри, как менялось число транзисторов:</p>
+
+        <div class="moore-chart">
+            <div class="moore-row">
+                <div class="moore-label"><strong>Intel 4004</strong><span>1971 · 10 мкм</span></div>
+                <div class="moore-bar-wrap"><div class="moore-bar" style="width: 33%;">2 300</div></div>
+            </div>
+            <div class="moore-row">
+                <div class="moore-label"><strong>Intel 8086</strong><span>1978 · 3 мкм</span></div>
+                <div class="moore-bar-wrap"><div class="moore-bar" style="width: 44%;">29 000</div></div>
+            </div>
+            <div class="moore-row">
+                <div class="moore-label"><strong>Intel Pentium</strong><span>1993 · 0,8 мкм</span></div>
+                <div class="moore-bar-wrap"><div class="moore-bar" style="width: 64%;">3,1 млн</div></div>
+            </div>
+            <div class="moore-row">
+                <div class="moore-label"><strong>Core 2 Duo</strong><span>2006 · 65 нм</span></div>
+                <div class="moore-bar-wrap"><div class="moore-bar" style="width: 83%;">291 млн</div></div>
+            </div>
+            <div class="moore-row">
+                <div class="moore-label"><strong>Apple M1</strong><span>2020 · 5 нм</span></div>
+                <div class="moore-bar-wrap"><div class="moore-bar" style="width: 100%;">16 млрд</div></div>
+            </div>
+            <p class="moore-note">Шкала логарифмическая: каждая следующая полоса на самом деле во много раз больше предыдущей. За 50 лет число транзисторов выросло примерно в 7 миллионов раз.</p>
         </div>
     </section>
 
     <!-- Секция сокетов (Интерактивная) -->
     <section id="sockets" class="sockets-section">
         <h2 class="section-title">Битва платформ и сокетов</h2>
-        
+
         <div class="tabs-container">
             <button class="tab-btn active" data-tab="intel">Архитектура Intel</button>
             <button class="tab-btn" data-tab="amd">Архитектура AMD</button>
@@ -239,6 +413,33 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- Секция «Источники» -->
+    <section id="sources" class="sources-section">
+        <h2 class="section-title">Источники</h2>
+        <ul class="sources-list">
+            <li>
+                <a href="https://www.computerhistory.org" target="_blank" rel="noopener">Computer History Museum</a>
+                <p>Музей истории компьютеров: материалы о первых микропроцессорах, Intel 4004 и становлении индустрии.</p>
+            </li>
+            <li>
+                <a href="https://www.intel.com" target="_blank" rel="noopener">Intel — официальный сайт</a>
+                <p>История компании, технические описания процессоров и архитектур Intel.</p>
+            </li>
+            <li>
+                <a href="https://www.amd.com" target="_blank" rel="noopener">AMD — официальный сайт</a>
+                <p>История компании, архитектуры Athlon, Athlon 64 и Zen, спецификации платформ AM4 и AM5.</p>
+            </li>
+            <li>
+                <a href="https://en.wikichip.org" target="_blank" rel="noopener">WikiChip</a>
+                <p>Справочник по микроархитектурам, техпроцессам, сокетам и числу транзисторов в процессорах.</p>
+            </li>
+            <li>
+                <strong style="color:#fff;">Gordon E. Moore, «Cramming more components onto integrated circuits», Electronics, 1965</strong>
+                <p>Первоисточник закона Мура: статья, в которой был сформулирован прогноз роста числа компонентов на кристалле.</p>
+            </li>
+        </ul>
     </section>
 
     <footer class="footer">
@@ -288,7 +489,7 @@
     <!-- Полный скрипт автоматизации -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        
+
         // 1. Логика вкладок (Intel / AMD)
         const tabButtons = document.querySelectorAll('.tab-btn');
         const tabPanes = document.querySelectorAll('.tab-pane');
@@ -329,7 +530,7 @@
 
         // 3. Подсветка пункта меню при скролле (scroll-spy)
         const navLinks = document.querySelectorAll('.nav-links a');
-        const spySections = document.querySelectorAll('#hero, #timeline, #sockets');
+        const spySections = document.querySelectorAll('section[id]');
 
         function setActiveLink(id) {
             navLinks.forEach(link => {
@@ -436,7 +637,7 @@
 
         function showQuestion() {
             if (!qText || !optionsContainer || !currentQEl || !quizData[currentQuestionIdx]) return;
-            
+
             const currentQuestion = quizData[currentQuestionIdx];
             currentQEl.textContent = currentQuestionIdx + 1;
             qText.textContent = currentQuestion.question;
@@ -464,7 +665,7 @@
 
         function showResult() {
             if (!qBlock || !rBlock) return;
-            
+
             qBlock.style.display = 'none';
             rBlock.style.display = 'block';
 
@@ -485,7 +686,7 @@
         if (restartBtn) {
             restartBtn.addEventListener('click', launchQuiz);
         }
-        
+
         if (qBlock && rBlock) {
             launchQuiz();
         }
