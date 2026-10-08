@@ -17,7 +17,6 @@
         <nav class="nav-links">
             <a href="#hero" class="active">Главная</a>
             <a href="#sockets">Сокеты</a>
-            <a href="#timeline">Хроника</a>
         </nav>
     </header>
 
@@ -41,7 +40,7 @@
         <!-- Контент табов -->
         <div class="tab-content-wrapper">
             <!-- Intel -->
-            <div class="tab-pane active" id="intel">
+            <div class="tab-pane active" id="intel" style="background-image: url('intel-bg.jpg');">
                 <div class="tech-card">
                     <h3>Подход Intel: Частое обновление</h3>
                     <p>Исторически Intel меняет сокеты каждые 2 поколения процессоров (например, переход с LGA1200 на LGA1700). Это объясняется изменением подсистем питания и разводки контактов под новые архитектуры.</p>
@@ -50,7 +49,7 @@
             </div>
 
             <!-- AMD -->
-            <div class="tab-pane" id="amd">
+            <div class="tab-pane" id="amd" style="background-image: url('amd-bg.jpg');">
                 <div class="tech-card">
                     <h3>Подход AMD: Долговечность платформ</h3>
                     <p>AMD делает упор на долгоживущие платформы. Сокет AM4 поддерживался более 5 лет, позволяя обновлять CPU без смены материнской платы, что требовало от инженеров закладывать огромный запас по питанию наперед.</p>
@@ -64,26 +63,7 @@
         <p>© 2026 Разработано в рамках индивидуального проекта 10 класса</p>
     </footer>
 
-    <script href="app.js"></script>
+    <!-- Исправленное подключение скрипта через src -->
+    <script src="app.js"></script>
 </body>
 </html>
-<!-- Контент табов -->
-<div class="tab-content-wrapper">
-    <!-- Intel -->
-    <div class="tab-pane active" id="intel" style="background-image: url('intel-bg.jpg');">
-        <div class="tech-card">
-            <h3>Подход Intel: Частое обновление</h3>
-            <p>Исторически Intel меняет сокеты каждые 2 поколения процессоров. Это объясняется изменением подсистем питания и разводки контактов под новые архитектуры.</p>
-            <div class="tech-note">Можно ли обновить микрокод BIOS, чтобы запустить новый процессор на старом сокете физически? Обычно нет, так как меняется геометрия сокета и назначение ножек.</div>
-        </div>
-    </div>
-
-    <!-- AMD -->
-    <div class="tab-pane" id="amd" style="background-image: url('amd-bg.jpg');">
-        <div class="tech-card">
-            <h3>Подход AMD: Долговечность платформ</h3>
-            <p>AMD делает упор на долгоживущие платформы. Сокет AM4 поддерживался более 5 лет, позволяя обновлять CPU без смены материнской платы, что требовало от инженеров закладывать огромный запас по питанию наперед.</p>
-            <div class="tech-note">Платформа AM5 продолжает эту традицию, обеспечивая поддержку современных стандартов DDR5 и PCIe 5.0 на годы вперед.</div>
-        </div>
-    </div>
-</div>
