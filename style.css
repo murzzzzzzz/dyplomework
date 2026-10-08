@@ -209,3 +209,40 @@ body {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+/* Обновляем контейнер для вкладок */
+.tab-pane {
+    display: none;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.tab-pane.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Карточка внутри вкладки становится полупрозрачной обложкой */
+.tech-card {
+    background: rgba(18, 20, 23, 0.85); /* Затемняем текстуру, чтобы текст читался идеально */
+    backdrop-filter: blur(4px); /* Легкое размытие самой текстуры под текстом */
+    padding: 2.5rem;
+    width: 100%;
+    height: 100%;
+}
+
+/* Эффект матового размытия при наведении на кнопки навигации или табы */
+.tab-btn:hover, .btn-primary:hover {
+    filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.4));
+}
+
+/* Если захочешь сделать полный блюр заднего фона сайта при наведении на конкретную кнопку */
+.blur-all-bg {
+    filter: blur(8px);
+    transition: filter 0.4s ease;
+}
