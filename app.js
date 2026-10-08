@@ -8,75 +8,91 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Убираем активный статус у всех кнопок и контента
             tabButtons.forEach(btn => btn.classList.remove('active'));
             tabPanes.forEach(pane => pane.classList.remove('active'));
 
-            // Добавляем класс нажатой кнопке
             button.classList.add('active');
-
-            // Показываем нужный блок по data-атрибуту
             const targetTab = button.getAttribute('data-tab');
-            document.getElementById(targetTab).classList.add('active');
+            const targetEl = document.getElementById(targetTab);
+            if(targetEl) targetEl.classList.add('active');
         });
     });
 
     // ==========================================
-    // 2. ЛОГИКА ИНТЕРАКТИВНОГО ТЕСТА (КВИЗА)
+    // 2. ОТКРЫТИЕ И ЗАКРЫТИЕ ОКНА ЧАТА ПОДДЕРЖКИ
+    // ==========================================
+    const chatTrigger = document.getElementById('chat-trigger');
+    const chatWindow = document.getElementById('chat-window');
+    const chatClose = document.getElementById('chat-close');
+    const badge = document.querySelector('.badge-dot');
+
+    if (chatTrigger && chatWindow && chatClose) {
+        chatTrigger.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+            if (badge) badge.style.display = 'none'; // Скрываем красный маркер
+        });
+
+        chatClose.addEventListener('click', () => {
+            chatWindow.classList.remove('open');
+        });
+    }
+
+    // ==========================================
+    // 3. АЛГОРИТМ ЧАТ-БОТА (ДИАЛОГОВЫЙ КВИЗ)
     // ==========================================
     const quizData = [
         {
             question: "Какая задача для твоего ПК в абсолютном приоритете?",
             options: [
-                { text: "Рендеринг 3D, монтаж тяжелого видео и сложные вычисления", score: "heavy" },
-                { text: "Максимальный FPS в современных играх и киберспорте", score: "gaming" },
-                { text: "Стабильный баланс: учеба, браузер, несложные игры и чтобы надолго", score: "balance" },
-                { text: "Экономия бюджета: тихая сборка для работы и старых игр", score: "budget" }
+                { text: "Рендеринг 3D, монтаж видео и вычисления", score: "heavy" },
+                { text: "Максимальный FPS в современных играх", score: "gaming" },
+                { text: "Стабильный баланс: учеба, веб и несложные игры", score: "balance" },
+                { text: "Экономия: сборка для работы и старых тайтлов", score: "budget" }
             ]
         },
         {
             question: "Как часто ты планируешь делать апгрейд процессора?",
             options: [
-                { text: "Куплю один раз топовую платформу, менять ничего не буду лет 5-7", score: "heavy" },
-                { text: "Хочу иметь возможность через 2-3 года просто переставить процессор в ту же плату", score: "balance" },
-                { text: "Готов менять платформу целиком, если выйдет ультимативное игровое решение", score: "gaming" },
-                { text: "Главное, чтобы материнка и память стоили копейки прямо сейчас", score: "budget" }
+                { text: "Куплю один раз топ и забуду лет на 5-7", score: "heavy" },
+                { text: "Хочу менять только CPU в том же сокете через 2-3 года", score: "balance" },
+                { text: "Готов менять всё, ради лучшего игрового железа", score: "gaming" },
+                { text: "Главное, чтобы плата и память стоили копейки сейчас", score: "budget" }
             ]
         },
         {
-            question: "Какая архитектурная особенность процессора тебя привлекает больше?",
+            question: "Какая техническая фишка для тебя важнее?",
             options: [
-                { text: "Огромное количество ядер и многопоточность для жестких задач", score: "heavy" },
-                { text: "Увеличенный 3D V-Cache (L3 кэш), дающий дикий буст в играх", score: "gaming" },
-                { text: "Долговечный сокет, который инженеры будут поддерживать годами", score: "balance" },
-                { text: "Проверенная временем народная архитектура без переплат за маркетинг", score: "budget" }
+                { text: "Огромное количество ядер и потоков под работу", score: "heavy" },
+                { text: "Технология 3D V-Cache для дикого буста в играх", score: "gaming" },
+                { text: "Долговечный сокет с поддержкой новых поколений CPU", score: "balance" },
+                { text: "Народная архитектура без лишнего маркетинга", score: "budget" }
             ]
         }
     ];
 
     const resultsData = {
         heavy: {
-            title: "Intel Core i9 / AMD Ryzen 9 (Многоядерные Монстры)",
-            desc: "Ты не привык идти на компромиссы. Твой выбор — ультимативные многоядерные флагманы. Исторически этот класс CPU развивался для тяжелых рабочих станций, но сегодня они доступны обычному пользователю для рендеринга и стриминга без малейших задержек."
+            title: "Intel Core i9 / Ryzen 9",
+            desc: "Флагманы многопоточности. Идеальны для тяжелого софта, рендеринга и стримов без каких-либо ограничений."
         },
         gaming: {
-            title: "AMD Ryzen X3D (Короли Гейминга)",
-            desc: "Твой приоритет — чистая производительность в играх. Процессоры с технологией 3D V-Cache совершили исторический переворот в игровой индустрии, доказав, что огромный объем быстрой кэш-памяти третьего уровня важнее для FPS, чем бездумное наращивание тактовой частоты."
+            title: "AMD Ryzen X3D серии",
+            desc: "Короли игрового фреймрейта. Дополнительный 3D-кэш полностью нивелирует любые просадки в играх."
         },
         balance: {
-            title: "AMD Ryzen 5 / 7 (Экосистема AM4 / AM5)",
-            desc: "Ты выбираешь самый прагматичный путь в истории hardware — долговечные платформы с заделом на будущее. Процессоры этого класса предлагают идеальный баланс производительности на рубль и позволяют легко обновиться через пару лет без покупки новой материнской платы."
+            title: "AMD Ryzen 5 / 7 (AM4/AM5)",
+            desc: "Прагматичный народный выбор. Долговечные платформы с легким и дешевым апгрейдом на годы вперед."
         },
         budget: {
-            title: "Intel Core i5 / Core i3 (Народная Классика)",
-            desc: "Твой выбор — проверенная временем стабильность. Исторически линейки уровня Core i5 становились основой для 80% домашних ПК во всем мире. Они предлагают отличную производительность в повседневных задачах и играх без необходимости переплачивать за дорогие системы охлаждения."
+            title: "Intel Core i5 / i3 последних серий",
+            desc: "Классика для стабильных домашних ПК. Отличная производительность в работе и средних играх без переплат."
         }
     };
 
     let currentQuestionIdx = 0;
     const scores = { heavy: 0, gaming: 0, balance: 0, budget: 0 };
 
-    const qBlock = document.getElementById('quiz-questions');
+    const qBlock = document.getElementById('quiz-chat-core');
     const rBlock = document.getElementById('quiz-result');
     const qText = document.getElementById('question-text');
     const optionsContainer = document.getElementById('options-container');
@@ -91,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showQuestion() {
-        if (!qText || !optionsContainer || !currentQEl) return;
+        if (!qText || !optionsContainer || !currentQEl || !quizData[currentQuestionIdx]) return;
         
         const currentQuestion = quizData[currentQuestionIdx];
         currentQEl.textContent = currentQuestionIdx + 1;
@@ -100,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentQuestion.options.forEach(opt => {
             const btn = document.createElement('button');
-            btn.className = 'option-btn';
+            btn.className = 'chat-opt-btn';
             btn.textContent = opt.text;
             btn.addEventListener('click', () => handleAnswer(opt.score));
             optionsContainer.appendChild(btn);
@@ -121,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showResult() {
         if (!qBlock || !rBlock) return;
         
-        qBlock.style.style.display = 'none';
+        qBlock.style.display = 'none';
         rBlock.style.display = 'block';
 
         let winner = 'balance';
@@ -142,8 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
         restartBtn.addEventListener('click', launchQuiz);
     }
     
-    // Запуск квиза при загрузке страницы
     if (qBlock && rBlock) {
         launchQuiz();
     }
 });
+
