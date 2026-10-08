@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (chatTrigger && chatWindow && chatClose) {
         chatTrigger.addEventListener('click', () => {
             chatWindow.classList.toggle('open');
-            if (badge) badge.style.display = 'none'; // Скрываем красный маркер
+            if (badge) badge.style.display = 'none'; // Скрываем уведомление
         });
 
         chatClose.addEventListener('click', () => {
@@ -137,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showResult() {
         if (!qBlock || !rBlock) return;
         
+        // ОШИБКА ИСПРАВЛЕНА ТУТ: убрано лишнее .style
         qBlock.style.display = 'none';
         rBlock.style.display = 'block';
 
@@ -162,4 +163,3 @@ document.addEventListener('DOMContentLoaded', () => {
         launchQuiz();
     }
 });
-
