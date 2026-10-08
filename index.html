@@ -95,6 +95,57 @@
         #result-desc { font-size: 13px !important; color: #94a3b8 !important; line-height: 1.4 !important; }
         .btn-chat-restart { width: 100% !important; padding: 8px !important; background: #1e222b !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: #94a3b8 !important; cursor: pointer !important; border-radius: 6px !important; font-size: 12px !important; margin-top: 10px !important; }
         .btn-chat-restart:hover { color: #fff !important; border-color: #fff !important; }
+
+        /* ===== ДОПИСАНО ===== */
+
+        /* Чтобы заголовки секций не прятались под фиксированной шапкой */
+        section[id] { scroll-margin-top: 70px; }
+
+        /* Плавное появление карточек таймлайна при скролле
+           (класс .reveal добавляется скриптом, без JS всё остаётся видимым) */
+        .timeline-item.reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .timeline-item.reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Точка на линии "вспыхивает" при появлении карточки */
+        .timeline-item.reveal .timeline-dot {
+            transition: box-shadow 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+            transform: scale(0.6);
+        }
+        .timeline-item.reveal.visible .timeline-dot {
+            transform: scale(1);
+            box-shadow: 0 0 16px #00f2fe, 0 0 4px #00f2fe;
+        }
+
+        /* Заглушка для вкладок, пока нет картинок intel-bg.jpg / amd-bg.jpg */
+        .tab-pane {
+            background-color: #1a1e26;
+            background-image: linear-gradient(135deg, #1a1e26, #12151b);
+        }
+
+        /* Адаптив */
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem 5%; }
+            .nav-links a { margin-left: 1rem; font-size: 0.85rem; }
+            .hero-title { font-size: 2.2rem; }
+            .timeline-section, .sockets-section { padding: 4rem 5%; }
+            .tabs-container { flex-wrap: wrap; }
+            .tech-card { padding: 1.5rem; }
+        }
+        @media (max-width: 480px) {
+            .chat-container {
+                width: calc(100vw - 30px) !important;
+                right: 15px !important;
+                height: 70vh !important;
+                bottom: 95px !important;
+            }
+            .chat-trigger-btn { right: 15px !important; bottom: 20px !important; }
+        }
     </style>
 </head>
 <body>
@@ -125,7 +176,7 @@
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <span class="timeline-date">1971 — 1985</span>
+                    <span class="timeline-date">1978 — 1985</span>
                     <h3>Зарождение архитектуры x86</h3>
                     <p>Появление легендарного процессора Intel 8086. Этот чип заложил фундамент набора инструкций (x86), который до сих пор используется в большинстве современных домашних компьютеров и серверов.</p>
                 </div>
@@ -153,7 +204,7 @@
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
                     <span class="timeline-date">2017 — Настоящее время</span>
-                    <h3>Архитектура Zen и чиплетная revolution</h3>
+                    <h3>Архитектура Zen и чиплетная революция</h3>
                     <p>AMD возвращается на рынок с архитектурой Ryzen, внедрив чиплетный дизайн (составные кристаллы). Это заставило Intel отказаться от 4-ядерного стандарта для потребительских флагманов и перейти к гибридным ядрам (P- и E-cores).</p>
                 </div>
             </div>
@@ -194,7 +245,7 @@
         <p>© 2026 Разработано в рамках индивидуального проекта 10 класса</p>
     </footer>
     <!-- Кнопка чата поддержки -->
-    <button id="chat-trigger" class="chat-trigger-btn">
+    <button id="chat-trigger" class="chat-trigger-btn" aria-label="Открыть чат поддержки">
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
@@ -211,7 +262,7 @@
                     <span class="status-online">Онлайн</span>
                 </div>
             </div>
-            <button id="chat-close" class="close-btn">&times;</button>
+            <button id="chat-close" class="close-btn" aria-label="Закрыть чат">&times;</button>
         </div>
 
         <div class="chat-body">
@@ -269,9 +320,54 @@
             chatClose.addEventListener('click', () => {
                 chatWindow.classList.remove('open');
             });
+
+            // Закрытие чата по Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') chatWindow.classList.remove('open');
+            });
         }
 
-        // 3. База данных вопросов и расчет весов
+        // 3. Подсветка пункта меню при скролле (scroll-spy)
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const spySections = document.querySelectorAll('#hero, #timeline, #sockets');
+
+        function setActiveLink(id) {
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+            });
+        }
+
+        if ('IntersectionObserver' in window) {
+            const spyObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) setActiveLink(entry.target.id);
+                });
+            }, { rootMargin: '-40% 0px -55% 0px' });
+
+            spySections.forEach(section => spyObserver.observe(section));
+        }
+
+        // 4. Плавное появление карточек таймлайна
+        const timelineItems = document.querySelectorAll('.timeline-item');
+
+        if ('IntersectionObserver' in window) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            timelineItems.forEach((item, i) => {
+                item.classList.add('reveal');
+                item.style.transitionDelay = (i % 2) * 0.1 + 's';
+                revealObserver.observe(item);
+            });
+        }
+
+        // 5. База данных вопросов и расчет весов
         const quizData = [
             {
                 question: "Какая задача для твоего ПК в абсолютном приоритете?",
