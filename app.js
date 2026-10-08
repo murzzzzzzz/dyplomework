@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // ==========================================
+    // 1. ЛОГИКА ИНТЕРАКТИВНЫХ ТАБОВ (Intel / AMD)
+    // ==========================================
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
 
@@ -14,7 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Показываем нужный блок по data-атрибуту
             const targetTab = button.getAttribute('data-tab');
             document.getElementById(targetTab).classList.add('active');
-                // --- КОД ИНТЕРАКТИВНОГО ТЕСТА ---
+        });
+    });
+
+    // ==========================================
+    // 2. ЛОГИКА ИНТЕРАКТИВНОГО ТЕСТА (КВИЗА)
+    // ==========================================
     const quizData = [
         {
             question: "Какая задача для твоего ПК в абсолютном приоритете?",
@@ -76,12 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function launchQuiz() {
         currentQuestionIdx = 0;
         for (let key in scores) scores[key] = 0;
-        rBlock.style.display = 'none';
-        qBlock.style.display = 'block';
+        if(rBlock) rBlock.style.display = 'none';
+        if(qBlock) qBlock.style.display = 'block';
         showQuestion();
     }
 
     function showQuestion() {
+        if (!qText || !optionsContainer || !currentQEl) return;
+        
         const currentQuestion = quizData[currentQuestionIdx];
         currentQEl.textContent = currentQuestionIdx + 1;
         qText.textContent = currentQuestion.question;
@@ -108,10 +119,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showResult() {
-        qBlock.style.display = 'none';
+        if (!qBlock || !rBlock) return;
+        
+        qBlock.style.style.display = 'none';
         rBlock.style.display = 'block';
 
-        // Находим категорию с максимальным количеством баллов
         let winner = 'balance';
         let maxScore = -1;
         for (let key in scores) {
@@ -125,12 +137,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('result-desc').textContent = resultsData[winner].desc;
     }
 
-    document.getElementById('restart-btn').addEventListener('click', launchQuiz);
+    const restartBtn = document.getElementById('restart-btn');
+    if (restartBtn) {
+        restartBtn.addEventListener('click', launchQuiz);
+    }
     
     // Запуск квиза при загрузке страницы
-    launchQuiz();
-
-        });
-    });
+    if (qBlock && rBlock) {
+        launchQuiz();
+    }
 });
-
