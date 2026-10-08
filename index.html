@@ -59,35 +59,60 @@
         </div>
     </section>
 
+    <!-- Подвал -->
     <footer class="footer">
         <p>© 2026 Разработано в рамках индивидуального проекта 10 класса</p>
     </footer>
-    <!-- Секция интерактивного теста -->
-    <section id="quiz" class="quiz-section">
-        <h2 class="section-title">Интерактивный подбор: Твой идеальный CPU</h2>
-        <p class="quiz-intro">Ответь на 3 вопроса, и наш алгоритм определит, какая историческая категория процессоров лучше всего отражает твои технические аппетиты.</p>
-        
-        <div class="quiz-card">
-            <!-- Экран вопросов (показывается сначала) -->
-            <div id="quiz-questions">
-                <div class="quiz-progress">Вопрос <span id="current-q">1</span> из 3</div>
-                <h3 id="question-text">Загрузка вопроса...</h3>
-                <div id="options-container" class="options-grid">
-                    <!-- Сюда JS вставит кнопки ответов -->
+
+    <!-- Кнопка вызова чат-поддержки -->
+    <button id="chat-trigger" class="chat-trigger-btn">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span class="badge-dot"></span>
+    </button>
+
+    <!-- Окно чат-бота поддержки -->
+    <div id="chat-window" class="chat-container">
+        <!-- Шапка чата -->
+        <div class="chat-header">
+            <div class="chat-bot-info">
+                <div class="bot-avatar">CPU</div>
+                <div>
+                    <h4>Поддержка CPU</h4>
+                    <span class="status-online">Онлайн</span>
+                </div>
+            </div>
+            <button id="chat-close" class="close-btn">&times;</button>
+        </div>
+
+        <!-- Тело чата -->
+        <div class="chat-body">
+            <!-- Приветствие -->
+            <div class="msg-bot">
+                Привет! Я интерактивный помощник. Ответь на 3 вопроса, и я подберу идеальный процессор под твои задачи.
+            </div>
+
+            <!-- Контейнер для вопросов квиза -->
+            <div id="quiz-chat-core">
+                <div class="quiz-progress-text">Вопрос <span id="current-q">1</span> из 3</div>
+                <div id="question-text" class="msg-bot question-style">Загрузка вопроса...</div>
+                <div id="options-container" class="options-vertical">
+                    <!-- Сюда JS вставит кнопки-варианты -->
                 </div>
             </div>
 
-            <!-- Экран результата (изначально скрыт) -->
-            <div id="quiz-result" class="result-pane" style="display: none;">
-                <div class="result-badge">Твой результат найден!</div>
-                <h3 id="result-title">Название процессора</h3>
-                <p id="result-desc">Описание категории...</p>
-                <button id="restart-btn" class="btn-secondary">Пройти заново</button>
+            <!-- Результат (изначально скрыт) -->
+            <div id="quiz-result" class="chat-result-pane" style="display: none;">
+                <div class="result-label">Рекомендация поддержки:</div>
+                <h4 id="result-title">Процессор</h4>
+                <p id="result-desc">Описание...</p>
+                <button id="restart-btn" class="btn-chat-restart">Пройти заново</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Исправленное подключение скрипта через src -->
+    <!-- Скрипт -->
     <script src="app.js"></script>
 </body>
 </html>
