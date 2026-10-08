@@ -6,7 +6,7 @@
     <title>Архитектура CPU: Эволюция Кремния</title>
     <link rel="stylesheet" href="style.css">
     
-    <!-- Гарантированные стили интерфейса -->
+    <!-- Жесткие стили чат-виджета, фиксирующие его в правой части -->
     <style>
         .chat-trigger-btn {
             position: fixed !important;
@@ -49,15 +49,13 @@
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
             border-radius: 16px !important;
             box-shadow: 0 12px 40px rgba(0,0,0,0.6) !important;
-            display: none !important; /* Полностью скрыт и не перекрывает клики */
+            display: none !important; 
             flex-direction: column !important;
             z-index: 999999 !important;
             overflow: hidden !important;
         }
 
-        .chat-container.open {
-            display: flex !important;
-        }
+        .chat-container.open { display: flex !important; }
 
         .chat-header {
             background: #1e222b !important;
@@ -100,23 +98,69 @@
     </style>
 </head>
 <body>
-
     <div class="bg-glow"></div>
-
+    <!-- Шапка сайта -->
     <header class="navbar">
         <div class="logo">CPU<span>History</span></div>
         <nav class="nav-links">
             <a href="#hero" class="active">Главная</a>
+            <a href="#timeline">Хроника</a>
             <a href="#sockets">Сокеты</a>
         </nav>
     </header>
 
+    <!-- Главный экран -->
     <section id="hero" class="hero-section">
         <h1 class="hero-title">Эволюция процессоров: <br><span>От кремния до нанометров</span></h1>
         <p class="hero-subtitle">Исследование развития микроархитектур, сокетов и логики, изменивших мир вычислительной техники.</p>
-        <a href="#sockets" class="btn-primary">Начать погружение</a>
+        <a href="#timeline" class="btn-primary">Начать погружение</a>
     </section>
 
+    <!-- Секция интерактивного таймлайна -->
+    <section id="timeline" class="timeline-section">
+        <h2 class="section-title">Хроника кремния: Ключевые вехи</h2>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">1971 — 1985</span>
+                    <h3>Зарождение архитектуры x86</h3>
+                    <p>Появление легендарного процессора Intel 8086. Этот чип заложил фундамент набора инструкций (x86), который до сих пор используется в большинстве современных домашних компьютеров и серверов.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">1993 — 2003</span>
+                    <h3>Эпоха Pentium и гонка частот</h3>
+                    <p>Intel доминирует с брендом Pentium, наращивая мегагерцы. В ответ AMD выпускает архитектуру K7 (Athlon), впервые официально преодолев барьер частоты в 1 ГГц и завязав жесткую историческую конкуренцию.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2004 — 2006</span>
+                    <h3>Переход на 64 бит и многоядерность</h3>
+                    <p>AMD совершает исторический прорыв, первой создав 64-битную архитектуру x86-64 (Athlon 64) и первый честный двухъядерный процессор X2. Наращивание частоты «в лоб» уперлось в тепловую стену, начался век многоядерности.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2017 — Настоящее время</span>
+                    <h3>Архитектура Zen и чиплетная revolution</h3>
+                    <p>AMD возвращается на рынок с архитектурой Ryzen, внедрив чиплетный дизайн (составные кристаллы). Это заставило Intel отказаться от 4-ядерного стандарта для потребительских флагманов и перейти к гибридным ядрам (P- и E-cores).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция сокетов (Интерактивная) -->
     <section id="sockets" class="sockets-section">
         <h2 class="section-title">Битва платформ и сокетов</h2>
         
@@ -149,8 +193,7 @@
     <footer class="footer">
         <p>© 2026 Разработано в рамках индивидуального проекта 10 класса</p>
     </footer>
-
-    <!-- Кнопка чата -->
+    <!-- Кнопка чата поддержки -->
     <button id="chat-trigger" class="chat-trigger-btn">
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -158,7 +201,7 @@
         <span class="badge-dot"></span>
     </button>
 
-    <!-- Окно чата -->
+    <!-- Окно чата с алгоритмом подбора CPU -->
     <div id="chat-window" class="chat-container">
         <div class="chat-header">
             <div class="chat-bot-info">
@@ -191,10 +234,11 @@
         </div>
     </div>
 
+    <!-- Полный скрипт автоматизации -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         
-        // 1. Табы сокетов (Intel / AMD)
+        // 1. Логика вкладок (Intel / AMD)
         const tabButtons = document.querySelectorAll('.tab-btn');
         const tabPanes = document.querySelectorAll('.tab-pane');
 
@@ -210,7 +254,7 @@
             });
         });
 
-        // 2. Окно чата поддержки (Открыть / Закрыть)
+        // 2. Управление окном поддержки
         const chatTrigger = document.getElementById('chat-trigger');
         const chatWindow = document.getElementById('chat-window');
         const chatClose = document.getElementById('chat-close');
@@ -227,7 +271,7 @@
             });
         }
 
-        // 3. Данные и алгоритм квиза
+        // 3. База данных вопросов и расчет весов
         const quizData = [
             {
                 question: "Какая задача для твоего ПК в абсолютном приоритете?",
@@ -261,11 +305,11 @@
         const resultsData = {
             heavy: {
                 title: "Intel Core i9 / Ryzen 9",
-                desc: "Флагманы многопоточности. Идеальны для тяжелого софта, рендеринга и стримов без ограничений."
+                desc: "Флагманы многопоточности. Идеальны для тяжелого софта, рендеринга и профессионального стриминга."
             },
             gaming: {
                 title: "AMD Ryzen X3D серии",
-                desc: "Короли игрового фреймрейта. Дополнительный 3D-кэш полностью нивелирует любые просадки в играх."
+                desc: "Короли игрового фреймрейта. Дополнительный 3D-кэш полностью нивелирует любые просадки в современных играх."
             },
             balance: {
                 title: "AMD Ryzen 5 / 7 (AM4/AM5)",
@@ -273,7 +317,7 @@
             },
             budget: {
                 title: "Intel Core i5 / i3 последних серий",
-                desc: "Классика для стабильных домашних ПК. Отличная производительность в работе и средних играх без переплат."
+                desc: "Классика для стабильных домашних ПК. Отличная производительность в работе и повседневных задачах без переплат."
             }
         };
 
