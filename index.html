@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Архитектура CPU: Эволюция Кремния</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Задний фон с эффектом свечения -->
+    <div class="bg-glow"></div>
+
+    <!-- Шапка сайта -->
+    <header class="navbar">
+        <div class="logo">CPU<span>History</span></div>
+        <nav class="nav-links">
+            <a href="#hero" class="active">Главная</a>
+            <a href="#sockets">Сокеты</a>
+            <a href="#timeline">Хроника</a>
+        </nav>
+    </header>
+
+    <!-- Главный экран -->
+    <section id="hero" class="hero-section">
+        <h1 class="hero-title">Эволюция процессоров: <br><span>От кремния до нанометров</span></h1>
+        <p class="hero-subtitle">Исследование развития микроархитектур, сокетов и логики, изменивших мир вычислительной техники.</p>
+        <a href="#sockets" class="btn-primary">Начать погружение</a>
+    </section>
+
+    <!-- Секция сокетов (Интерактивная) -->
+    <section id="sockets" class="sockets-section">
+        <h2 class="section-title">Битва платформ и сокетов</h2>
+        
+        <!-- Переключатели на JS -->
+        <div class="tabs-container">
+            <button class="tab-btn active" data-tab="intel">Архитектура Intel</button>
+            <button class="tab-btn" data-tab="amd">Архитектура AMD</button>
+        </div>
+
+        <!-- Контент табов -->
+        <div class="tab-content-wrapper">
+            <!-- Intel -->
+            <div class="tab-pane active" id="intel">
+                <div class="tech-card">
+                    <h3>Подход Intel: Частое обновление</h3>
+                    <p>Исторически Intel меняет сокеты каждые 2 поколения процессоров (например, переход с LGA1200 на LGA1700). Это объясняется изменением подсистем питания и разводки контактов под новые архитектуры.</p>
+                    <div class="tech-note">Можно ли обновить микрокод BIOS, чтобы запустить новый процессор на старом сокете физически? Обычно нет, так как меняется геометрия сокета и назначение ножек.</div>
+                </div>
+            </div>
+
+            <!-- AMD -->
+            <div class="tab-pane" id="amd">
+                <div class="tech-card">
+                    <h3>Подход AMD: Долговечность платформ</h3>
+                    <p>AMD делает упор на долгоживущие платформы. Сокет AM4 поддерживался более 5 лет, позволяя обновлять CPU без смены материнской платы, что требовало от инженеров закладывать огромный запас по питанию наперед.</p>
+                    <div class="tech-note">Платформа AM5 продолжает эту традицию, обеспечивая поддержку современных стандартов DDR5 и PCIe 5.0 на годы вперед.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Разработано в рамках индивидуального проекта 10 класса</p>
+    </footer>
+
+    <script href="app.js"></script>
+</body>
+</html>
